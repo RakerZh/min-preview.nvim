@@ -1,8 +1,8 @@
--- File: ~/.local/share/nvim/plugged/markdown-preview/lua/markdown-preview.lua
+local M = {
+  custom_browser = 'Safari'
+}
 
-local M = {}
-
-function M.preview()
+function M.previewmd()
   -- Save the current buffer
   vim.api.nvim_command('write')
 
@@ -14,5 +14,20 @@ function M.preview()
   cmd = 'open -a Safari /tmp/markdown-preview.html'
   os.execute(cmd)
 end
+
+
+function M.previewjy()
+  -- Save the current buffer
+  vim.api.nvim_command('write')
+
+  -- Convert the Jupyter notebook to HTML
+  local cmd = 'jupyter nbconvert --to html ' .. vim.fn.shellescape(vim.api.nvim_buf_get_name(0)) .. ' --output /tmp/jupyter-preview.html'
+  os.execute(cmd)
+
+  -- Open the HTML file in Safari
+  cmd = 'open -a' .. M.custom_browser .. '/tmp/jupyter-preview.html'
+  os.execute(cmd)
+end
+
 
 return M
